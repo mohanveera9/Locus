@@ -23,7 +23,7 @@ class Editcontainer extends StatelessWidget {
         width: double.infinity,
         height: height * 0.07,
         decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.tertiaryFixed,
+            color: Theme.of(context).colorScheme.tertiary,
             borderRadius: BorderRadius.circular(24)),
         child: Padding(
           padding: const EdgeInsets.only(left: 25, right: 25),
@@ -34,7 +34,7 @@ class Editcontainer extends StatelessWidget {
                 children: [
                   Icon(
                     icon,
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Theme.of(context).colorScheme.tertiaryContainer,
                   ),
                   SizedBox(
                     width: 10,
@@ -44,14 +44,14 @@ class Editcontainer extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: Theme.of(context).colorScheme.secondary),
+                        color: Theme.of(context).colorScheme.tertiaryContainer),
                   )
                 ],
               ),
               if (need)
                 Icon(
                   Icons.arrow_forward,
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.tertiaryContainer,
                 )
             ],
           ),

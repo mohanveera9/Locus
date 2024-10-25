@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:locus/Pages/Home/mainScreen.dart';
+import 'package:locus/Pages/Home/Settings/settings.dart';
 import 'package:locus/widgets/button.dart';
 import 'package:locus/widgets/inputfeilds.dart';
-import 'package:locus/Pages/LoginRegister/loginMain.dart';
-import 'package:locus/widgets/otherOptions.dart';
 
-class Register extends StatefulWidget {
+class Updatepassword extends StatefulWidget {
   @override
-  State<Register> createState() => _RegisterState();
+  State<Updatepassword> createState() => _UpdatepasswordState();
 }
 
-class _RegisterState extends State<Register> {
+class _UpdatepasswordState extends State<Updatepassword> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
@@ -21,9 +18,76 @@ class _RegisterState extends State<Register> {
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
 
-  String? _usernameError;
   String? _passwordError;
   String? _confirmPasswordError;
+
+  void _validateAndShowDialog() {
+    if (_formKey.currentState!.validate()) {
+      // Show the dialog after successful validation
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: const Color.fromRGBO(
+                21, 21, 21, 1), // AlertDialog background color
+            title: Container(
+              padding: const EdgeInsets.all(8), // Padding inside the circle
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.green, // Border color
+                  width: 2, // Border width
+                ),
+              ),
+              child: const Icon(
+                Icons.done,
+                color: Colors.green, // Icon color
+                size: 24,
+              ),
+            ),
+            content: const Column(
+              mainAxisSize:
+                  MainAxisSize.min, // Ensure the column size fits its content
+              children: [
+                Text(
+                  'Congratulations',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Your Password was Updated!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              Center(
+                child: Button1(
+                  title: 'Continue',
+                  colors: Theme.of(context).colorScheme.primary,
+                  textColor: Colors.white,
+                  onTap: () {
+                    Navigator.of(context).pop(); // Close the dialog
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => Settings()),
+                    ); // Navigate to the Main screen
+                  },
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +115,9 @@ class _RegisterState extends State<Register> {
                 ),
               ),
               Text(
-                'Register',
+                'Upadeted Password',
                 style: TextStyle(
-                    fontSize: 48,
+                    fontSize: 25,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).colorScheme.primary,
                     fontFamily: 'Electrolize'),
@@ -68,26 +132,7 @@ class _RegisterState extends State<Register> {
                   children: [
                     const SizedBox(height: 30),
                     Inputfields(
-                      title: 'Username or ID',
-                      emoji: const Icon(Icons.person_2_outlined),
-                      controller: _nameController,
-                      onTap: (value) {
-                        // This placeholder ensures the function doesn't return a validation error string
-                        return null;
-                      },
-                      keyBoard1: false,
-                      obscureText: false,
-                    ),
-                    if (_usernameError != null)
-                      Text(
-                        _usernameError!,
-                        style: const TextStyle(color: Colors.red, fontSize: 12),
-                      ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Inputfields(
-                      title: 'Enter Password',
+                      title: 'Enter Current Password',
                       emoji: const Icon(Icons.lock),
                       controller: _passwordController,
                       onTap: (value) {
@@ -101,11 +146,9 @@ class _RegisterState extends State<Register> {
                         _passwordError!,
                         style: const TextStyle(color: Colors.red, fontSize: 12),
                       ),
-                    SizedBox(
-                      height: 25,
-                    ),
+                    const SizedBox(height: 25),
                     Inputfields(
-                      title: 'Confirm Password',
+                      title: 'Enter New Password',
                       emoji: const Icon(Icons.lock),
                       controller: _confirmPasswordController,
                       onTap: (value) {
@@ -125,7 +168,7 @@ class _RegisterState extends State<Register> {
                       child: Align(
                         alignment: Alignment.center,
                         child: Button1(
-                          title: 'Register',
+                          title: 'Confirm',
                           colors: Theme.of(context).colorScheme.primary,
                           textColor: Colors.white,
                           onTap: () {
@@ -134,41 +177,12 @@ class _RegisterState extends State<Register> {
                               _validateForm();
                             });
                             if (_formKey.currentState!.validate() &&
-                                _usernameError == null &&
                                 _passwordError == null &&
                                 _confirmPasswordError == null) {
                               _clearFields();
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => Mainscreen()),
-                              );
+                              _validateAndShowDialog(); // Show dialog on successful registration
                             }
                           },
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20.0),
-                      child: Otheroptions(
-                        text1: 'Already have an account? ',
-                        text2: 'Login',
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (builder) => Loginmain(),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        height: 9,
-                        width: 180,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.secondary,
-                          borderRadius: BorderRadius.circular(5),
                         ),
                       ),
                     ),
@@ -184,8 +198,6 @@ class _RegisterState extends State<Register> {
 
   void _validateForm() {
     setState(() {
-      _usernameError =
-          _nameController.text.isEmpty ? "Username is required" : null;
       _passwordError =
           _passwordController.text.isEmpty ? "Password is required" : null;
       _confirmPasswordError = _confirmPasswordController.text.isEmpty
@@ -197,7 +209,6 @@ class _RegisterState extends State<Register> {
   }
 
   void _clearFields() {
-    _nameController.clear();
     _passwordController.clear();
     _confirmPasswordController.clear();
   }

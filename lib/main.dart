@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
           primary: Color.fromRGBO(0, 191, 99,1),
           secondary: Color.fromRGBO(191, 255, 168, 1),
           tertiary: Colors.white,
+          tertiaryContainer: Colors.black
         ),
         useMaterial3: true,
       ),

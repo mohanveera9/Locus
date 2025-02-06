@@ -28,7 +28,7 @@ class _EditprofileState extends State<Editprofile> {
     super.dispose();
   }
 
-  bool _isValidDateFormat(String input) {
+  bool  _isValidDateFormat(String input) {
     final RegExp dateRegExp = RegExp(
         r'^([0-2][0-9]|(3)[0-1])\/((0)[0-9]|(1)[0-2])\/\d{4}$'); // dd/MM/yyyy
     return dateRegExp.hasMatch(input);
@@ -40,7 +40,37 @@ class _EditprofileState extends State<Editprofile> {
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        title: const Padding(
+          padding: EdgeInsets.only(left: 20.0),
+          child: Text(
+            'Edit Profile',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+              fontFamily: 'Electrolize',
+            ),
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Icon(
+                Icons.close,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
       body: SizedBox(
         height: height,
         width: width,
@@ -52,34 +82,7 @@ class _EditprofileState extends State<Editprofile> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: height * 0.08),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Icon(
-                            Icons.arrow_back_ios,
-                            color: Theme.of(context).colorScheme.tertiary,
-                          ),
-                        ),
-                        Text(
-                          'Edit Profile',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                            color: Theme.of(context).colorScheme.tertiary,
-                            fontFamily: 'Electrolize'
-                          ),
-                        ),
-                        const Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.transparent,
-                        ),
-                      ],
-                    ),
+                    SizedBox(height: height * 0.02),
                     Form(
                       key: formKey,
                       child: Column(
@@ -91,91 +94,26 @@ class _EditprofileState extends State<Editprofile> {
                             style: TextStyle(
                               fontSize: height * 0.02,
                               fontWeight: FontWeight.w600,
-                              color: Theme.of(context).colorScheme.tertiary,
+                              color: Colors.black,
                             ),
                           ),
                           TextFormField(
                             controller: _nameController,
-                            cursorColor: Theme.of(context).colorScheme.tertiary,
+                            cursorColor: Theme.of(context).colorScheme.primary,
                             style: TextStyle(
-                              color: Theme.of(context).colorScheme.tertiary,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
+                                borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
                               ),
                               focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
+                                borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
                               ),
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter your Name';
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(height: height * 0.01),
-                          Text(
-                            'User Id',
-                            style: TextStyle(
-                              fontSize: height * 0.02,
-                              fontWeight: FontWeight.w600,
-                              color: Theme.of(context).colorScheme.tertiary,
-                            ),
-                          ),
-                          TextFormField(
-                            controller: _userIdController,
-                            cursorColor: Theme.of(context).colorScheme.tertiary,
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.tertiary,
-                            ),
-                            decoration: const InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your User Id';
-                              } else if (!RegExp(r'^[a-zA-Z0-9]+$').hasMatch(value)) {
-                                return 'User Id should contain only letters and numbers';
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(height: height * 0.01),
-                          Text(
-                            'Email',
-                            style: TextStyle(
-                              fontSize: height * 0.02,
-                              fontWeight: FontWeight.w600,
-                              color: Theme.of(context).colorScheme.tertiary,
-                            ),
-                          ),
-                          TextFormField(
-                            controller: _emailController,
-                            cursorColor: Theme.of(context).colorScheme.tertiary,
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.tertiary,
-                            ),
-                            decoration: const InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your Email';
-                              } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                                  .hasMatch(value)) {
-                                return 'Please enter a valid email address';
                               }
                               return null;
                             },
@@ -186,21 +124,21 @@ class _EditprofileState extends State<Editprofile> {
                             style: TextStyle(
                               fontSize: height * 0.02,
                               fontWeight: FontWeight.w600,
-                              color: Theme.of(context).colorScheme.tertiary,
+                              color: Colors.black,
                             ),
                           ),
                           TextFormField(
                             controller: _genderController,
-                            cursorColor: Theme.of(context).colorScheme.tertiary,
+                            cursorColor: Theme.of(context).colorScheme.primary,
                             style: TextStyle(
-                              color: Theme.of(context).colorScheme.tertiary,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
+                                borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
                               ),
                               focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
+                                borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
                               ),
                             ),
                             validator: (value) {
@@ -214,25 +152,25 @@ class _EditprofileState extends State<Editprofile> {
                           ),
                           SizedBox(height: height * 0.02),
                           Text(
-                            'Birthday (dd/MM/yyyy)',
+                            'Birthday (dd/MM/yyyy)', 
                             style: TextStyle(
                               fontSize: height * 0.02,
                               fontWeight: FontWeight.w600,
-                              color: Theme.of(context).colorScheme.tertiary,
+                              color: Colors.black ,
                             ),
                           ),
                           TextFormField(
                             controller: _bdayController,
-                            cursorColor: Theme.of(context).colorScheme.tertiary,
+                            cursorColor: Theme.of(context).colorScheme.primary,
                             style: TextStyle(
-                              color: Theme.of(context).colorScheme.tertiary,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
+                                borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
                               ),
                               focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
+                                borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
                               ),
                             ),
                             validator: (value) {

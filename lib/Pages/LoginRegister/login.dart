@@ -20,7 +20,6 @@ class _LoginState extends State<Login> {
 
   String? _usernameError;
   String? _passwordError;
-  String? _confirmPasswordError;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +79,9 @@ class _LoginState extends State<Login> {
                         _usernameError!,
                         style: const TextStyle(color: Colors.red, fontSize: 12),
                       ),
-                      SizedBox(height: 25,),
+                    SizedBox(
+                      height: 25,
+                    ),
                     Inputfields(
                       title: 'Enter Password',
                       emoji: const Icon(Icons.lock),
@@ -96,7 +97,9 @@ class _LoginState extends State<Login> {
                         _passwordError!,
                         style: const TextStyle(color: Colors.red, fontSize: 12),
                       ),
-                      SizedBox(height: 40,),
+                    SizedBox(
+                      height: 40,
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 30.0),
                       child: Align(
@@ -106,19 +109,11 @@ class _LoginState extends State<Login> {
                           colors: Theme.of(context).colorScheme.primary,
                           textColor: Colors.white,
                           onTap: () {
-                            setState(() {
-                              _isSubmitted = true;
-                              _validateForm();
-                            });
-                            if (_formKey.currentState!.validate() &&
-                                _usernameError == null &&
-                                _passwordError == null &&
-                                _confirmPasswordError == null) {
-                              _clearFields();
-                              Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) => Mainscreen()),
-                              );
-                            }
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (builder) => Mainscreen(),
+                              ),
+                            );
                           },
                         ),
                       ),
@@ -156,19 +151,5 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
-  }
-
-  void _validateForm() {
-    setState(() {
-      _usernameError =
-          _nameController.text.isEmpty ? "Username is required" : null;
-      _passwordError =
-          _passwordController.text.isEmpty ? "Password is required" : null;
-    });
-  }
-
-  void _clearFields() {
-    _nameController.clear();
-    _passwordController.clear();
   }
 }

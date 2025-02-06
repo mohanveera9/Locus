@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:locus/Pages/Home/mainScreen.dart';
 import 'package:locus/Pages/LoginRegister/login.dart';
 import 'package:locus/Pages/LoginRegister/register/registerMain.dart';
 import 'package:locus/widgets/customContainer.dart';
@@ -64,16 +65,25 @@ class _LoginmainState extends State<Loginmain> {
                   },
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 25.0),
-                child: Customcontainer(
-                  widget: Image.asset(
-                    'assets/img/google.png',
-                    height: 30,
-                    width: 30,
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (builder) => Mainscreen(),
+                    ),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 25.0),
+                  child: Customcontainer(
+                    widget: Image.asset(
+                      'assets/img/google.png',
+                      height: 30,
+                      width: 30,
+                    ),
+                    text: 'Continue with Google',
+                    onTap: () {},
                   ),
-                  text: 'Continue with Google',
-                  onTap: () {},
                 ),
               ),
               Padding(

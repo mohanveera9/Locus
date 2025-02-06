@@ -12,6 +12,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   LatLng? _currentLocation;
+  double _selectedRadius = 200.0;
 
   @override
   void initState() {
@@ -23,29 +24,22 @@ class _HomeState extends State<Home> {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Check if location services are enabled
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      // Location services are not enabled, don't proceed
       return;
     }
 
-    // Request permission
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.deniedForever) {
-        // Permissions are permanently denied, handle appropriately
         return;
       }
-
       if (permission == LocationPermission.denied) {
-        // Permissions are denied, handle appropriately
         return;
       }
     }
 
-    // Get the current location
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     setState(() {
@@ -63,9 +57,7 @@ class _HomeState extends State<Home> {
           automaticallyImplyLeading: false,
           backgroundColor: Theme.of(context).colorScheme.primary,
           title: Padding(
-            padding: EdgeInsets.only(
-              left: 10.0,
-            ),
+            padding: EdgeInsets.only(left: 10.0),
             child: Image.asset(
               'assets/img/locusw.png',
               width: 170,
@@ -92,26 +84,82 @@ class _HomeState extends State<Home> {
         ),
       ),
       body: _currentLocation == null
-          ? Center(child: CircularProgressIndicator()) // Show loading until location is obtained
-          : FlutterMap(
-              options: MapOptions(
-                initialCenter: _currentLocation!, // Update map center to user's location
-                initialZoom: 9.2,
-              ),
+          ? Center(child: CircularProgressIndicator())
+          : Stack(
               children: [
-                TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'com.example.app',
-                ),
-                RichAttributionWidget(
-                  attributions: [
-                    TextSourceAttribution(
-                      'OpenStreetMap contributors',
-                      onTap: () => launchUrl(
-                        Uri.parse('https://openstreetmap.org/copyright'),
-                      ),
+                FlutterMap(
+                  options: MapOptions(
+                    initialCenter: _currentLocation!,
+                    initialZoom: 13.0,
+                  ),
+                  children: [
+                    TileLayer(
+                      urlTemplate:
+                          'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      userAgentPackageName: 'com.example.app',
+                    ),
+                    RichAttributionWidget(
+                      attributions: [
+                        TextSourceAttribution(
+                          'OpenStreetMap contributors',
+                          onTap: () => launchUrl(
+                            Uri.parse('https://openstreetmap.org/copyright'),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
+                ),
+                Positioned(
+                  top: 20,
+                  right: 20,
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Icon(Icons.radio_button_checked,
+                                color: Colors.black,size: 20,),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              _selectedRadius.toString(),
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                              ),
+                            )
+                          ],
+                        ),
+                      )),
+                ),
+                Positioned(
+                  bottom: 100,
+                  right: 20,
+                  child: FloatingActionButton(
+                    onPressed: () {},
+                    shape: CircleBorder(),
+                    backgroundColor: Theme.of(context).primaryColor,
+                    child: PopupMenuButton<double>(
+                      onSelected: (value) {
+                        setState(() {
+                          _selectedRadius = value;
+                        });
+                      },
+                      icon:
+                          Icon(Icons.radio_button_checked, color: Colors.white),
+                      itemBuilder: (context) => [
+                        PopupMenuItem(value: 200.0, child: Text('200m')),
+                        PopupMenuItem(value: 300.0, child: Text('300m')),
+                        PopupMenuItem(value: 500.0, child: Text('500m')),
+                        PopupMenuItem(value: 1000.0, child: Text('1000m')),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),

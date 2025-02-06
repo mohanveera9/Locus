@@ -1,32 +1,40 @@
 import 'package:flutter/material.dart';
 
-class Chatcontainer extends StatelessWidget {
+class Chatcontainer extends StatefulWidget {
   final String img;
   final String text;
   final String name;
   final VoidCallback function;
-  const Chatcontainer({
-    super.key,
-    required this.img,
-    required this.text,
-    required this.name,
-    required this.function,
-  });
+  final String type;
+  const Chatcontainer(
+      {super.key,
+      required this.img,
+      required this.text,
+      required this.name,
+      required this.function,
+      required this.type});
 
   @override
+  State<Chatcontainer> createState() => _ChatcontainerState();
+}
+
+class _ChatcontainerState extends State<Chatcontainer> {
+  @override
   Widget build(BuildContext context) {
+    bool isReceive = widget.type == 'receive';
+
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(bottom: 10.0, right: 20),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Circle Avatar for the profile image
           CircleAvatar(
-            backgroundImage:
-                AssetImage(img.isNotEmpty ? img : 'assets/img/mohan.jpg'),
-            radius: 20,
+            backgroundImage: AssetImage(
+              widget.img.isNotEmpty ? widget.img : 'assets/img/mohan.jpg',
+            ),
+            radius: 12,
           ),
-          const SizedBox(width: 10), // Space between avatar and text container
+          const SizedBox(width: 5),
 
           // Message container with triangle shape at the top left
           Expanded(
@@ -34,40 +42,21 @@ class Chatcontainer extends StatelessWidget {
               children: [
                 // Message container
                 Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Colors.black.withOpacity(0.4),
-                      width: 1,
-                    ),
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                    ),
-                  ),
                   margin: const EdgeInsets.only(left: 8.0, top: 8.0),
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 1, right: 1),
+                    padding:
+                        EdgeInsets.only(bottom: 1, right: isReceive ? 1 : 0),
                     child: Container(
                       padding: const EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color:
-                                Colors.black.withOpacity(0.3), // Shadow color
-                            spreadRadius: 2, // Spread of the shadow
-                            blurRadius: 8, // Blur radius of the shadow
-                            offset: Offset(
-                                4, 4), // Shadow direction (right and down)
-                          ),
-                        ],
-                        color: Colors.white,
+                        color: isReceive
+                            ? Colors.white
+                            : Theme.of(context).colorScheme.secondary,
                         border: Border.all(
                           color: Colors.black.withOpacity(0.3),
                           width: 1,
                         ),
-                        borderRadius: const BorderRadius.only(
+                        borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(10),
                           bottomRight: Radius.circular(10),
                           topRight: Radius.circular(10),
@@ -78,8 +67,12 @@ class Chatcontainer extends StatelessWidget {
                         children: [
                           // Sender's name
                           Text(
-                            name.isNotEmpty ? name : 'Unknown',
-                            style: const TextStyle(
+                            !isReceive
+                                ? "You"
+                                : widget.name.isNotEmpty
+                                    ? widget.name
+                                    : 'Unknown',
+                            style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
@@ -89,10 +82,11 @@ class Chatcontainer extends StatelessWidget {
 
                           // Message text
                           Text(
-                            text.isNotEmpty ? text : 'No message available',
-                            maxLines: 4, // Limits to four lines with ellipsis
+                            widget.text.isNotEmpty
+                                ? widget.text
+                                : 'No message available',
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 14,
                               color: Colors.black,
                             ),
@@ -103,43 +97,37 @@ class Chatcontainer extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  const Icon(
-                                    Icons.reply,
-                                    color: Colors.black,
-                                  ),
-                                  const SizedBox(width: 3),
                                   Text(
-                                    'Forward',
+                                    '10:00 AM',
                                     style: TextStyle(
                                       fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
+                                      color: Colors.grey,
                                     ),
                                   ),
                                 ],
                               ),
-                              GestureDetector(
-                                onTap: function,
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.message,
+                              Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {},
+                                    child: Icon(
+                                      Icons.reply,
                                       color: Colors.black,
                                     ),
-                                    const SizedBox(width: 3),
-                                    Text(
-                                      'Message',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  if (isReceive)
+                                    GestureDetector(
+                                      onTap: widget.function,
+                                      child: Icon(
+                                        Icons.message,
+                                        color: Colors.black,
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  SizedBox(
+                                    width: 10,
+                                  )
+                                ],
                               ),
                             ],
                           ),

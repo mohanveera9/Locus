@@ -2,73 +2,145 @@ import 'package:flutter/material.dart';
 import 'package:locus/Pages/Home/Settings/settings.dart';
 import 'package:locus/Pages/Home/Settings/editProfile.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  Color _getColorForCharacter(String name) {
+    // Define a list of colors
+    const List<Color> colors = [
+      Colors.red,
+      Colors.green,
+      Colors.blue,
+      Colors.orange,
+      Colors.purple,
+      Colors.teal,
+      Colors.amber,
+      Colors.cyan,
+      Colors.deepPurple,
+      Colors.indigo,
+      Colors.lime,
+      Colors.pink,
+      Colors.yellow,
+      Colors.brown,
+    ];
+
+    if (name.isEmpty) {
+      return Colors.grey;
+    }
+
+    final char = name[0].toUpperCase();
+    final index = char.codeUnitAt(0) % colors.length;
+    return colors[index];
+  }
+
   @override
   Widget build(BuildContext context) {
+    final name = "Mohan";
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: PreferredSize( 
+        preferredSize: Size.fromHeight(60),
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          title: Padding(
+            padding: EdgeInsets.only(
+              left: 10.0,
+            ),
+            child: Image.asset(
+              'assets/img/locusw.png',
+              width: 170,
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Icon(
+                  Icons.close,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(40.0),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Image.asset(
-                    'assets/img/locus1.png',
-                    width: 170,
+                Center(
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      CircleAvatar(
+                        radius: 50,
+                        backgroundColor: _getColorForCharacter(name),
+                        child: Text(
+                          name.isNotEmpty ? name[0].toUpperCase() : 'M',
+                          style: const TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: -5,
+                        right: 0,
+                        child: Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primary,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white, width: 2),
+                          ),
+                          child: const Icon(
+                            Icons.camera_alt,
+                            size: 20,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                GestureDetector(
-                  onTap: (){
-                    Navigator.of(context).pop();
-                  },
-                  child: Icon(
-                    Icons.close,
-                    size: 30,
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  'Mohan Veera',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                  ),
+                ),
+                Text(
+                  'mohanveera_9',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black,
+                  ),
+                ),
+                Text(
+                  'mohan103999@gmail.com',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black,
                   ),
                 ),
               ],
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 30.0),
-              child: Column(
-                children: [
-                  CircleAvatar(
-                    backgroundImage: AssetImage('assets/img/mohan.jpg'),
-                    radius: 60,
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Text(
-                    'Mohan Veera',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
-                  ),
-                  Text(
-                    'mohanveera_9',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
-                    ),
-                  ),
-                  Text(
-                    'mohan103999@gmail.com',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
             ),
             Spacer(),
             Padding(

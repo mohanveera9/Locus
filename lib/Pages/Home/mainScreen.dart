@@ -26,6 +26,7 @@ class _MainscreenState extends State<Mainscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           // Display the currently selected page
@@ -38,18 +39,12 @@ class _MainscreenState extends State<Mainscreen> {
             child: Container(
               height: 80,
               decoration: BoxDecoration(
-                color: Colors.white,
+                // color: Color(0xFFF7FEE7),
+                color: Theme.of(context).colorScheme.primary,
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(40),
                   topRight: Radius.circular(40),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 5,
-                    blurRadius: 10,
-                  ),
-                ],
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -74,22 +69,19 @@ class _MainscreenState extends State<Mainscreen> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: Icon(
-              icon,
-              size: 40,
-              color: isSelected
-                  ? Theme.of(context).colorScheme.primary
-                  : Colors.black.withOpacity(0.6),
-            ),
+          Icon(
+            icon,
+            size: 30,
+            color: isSelected
+                ? Colors.white
+                : Colors.black.withOpacity(0.6),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 2),
           Text(
             label,
             style: TextStyle(
               color: isSelected
-                  ? Theme.of(context).colorScheme.primary
+                  ? Colors.white
                   : Colors.black.withOpacity(0.6),
               fontSize: 12,
             ),

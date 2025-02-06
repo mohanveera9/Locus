@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:locus/Pages/Home/mainScreen.dart';
+import 'package:locus/Pages/LoginRegister/login.dart';
+import 'package:locus/Pages/LoginRegister/loginMain.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: Mainscreen(),
+      home: Loginmain(),
     );
   }
 }

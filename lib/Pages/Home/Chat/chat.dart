@@ -9,47 +9,56 @@ class Chat extends StatelessWidget {
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
-      'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.'
+      'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
+      'type':'receive'
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
-      'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.'
+      'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
+      'type':'receive'
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
-      'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.'
+      'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
+      'type':'send'
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
-      'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.'
+      'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
+      'type':'receive'
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
-      'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.'
+      'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
+      'type':'receive'
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
-      'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.'
+      'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
+      'type':'send'
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
-      'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.'
+      'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
+      'type':'receive'
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
-      'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.'
+      'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
+      'type':'receive'
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
-      'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.'
+      'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
+      'type':'receive'
     },
   ];
 
@@ -95,7 +104,7 @@ class Chat extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(
-                top: 20.0, left: 20, right: 20, bottom: 100),
+                top: 15.0, left: 15,  bottom: 80,),
             child: Column(
               children: [
                 Expanded(
@@ -104,6 +113,7 @@ class Chat extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final chat = chats[index];
                       return Chatcontainer(
+                        type: chat['type'] as String,
                         img: chat['img'] as String,
                         name: chat['name'] as String,
                         text: chat['text'] as String,

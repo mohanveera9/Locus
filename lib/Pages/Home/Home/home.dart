@@ -47,6 +47,41 @@ class _HomeState extends State<Home> {
     });
   }
 
+  void _showRadiusDropdown(BuildContext context) {
+    showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(200, 100, 20, 0), // Adjust position
+      items: [
+        PopupMenuItem(
+          value: 200.0,
+          child: Text('200m'),
+        ),
+        PopupMenuItem(
+          value: 300.0,
+          child: Text('300m'),
+        ),
+        PopupMenuItem(
+          value: 400.0,
+          child: Text('400m'),
+        ),
+        PopupMenuItem(
+          value: 600.0,
+          child: Text('600m'),
+        ),
+        PopupMenuItem(
+          value: 1000.0,
+          child: Text('1000m'),
+        ),
+      ],
+    ).then((value) {
+      if (value != null) {
+        setState(() {
+          _selectedRadius = value;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,51 +148,33 @@ class _HomeState extends State<Home> {
                 Positioned(
                   top: 20,
                   right: 20,
-                  child: Container(
+                  child: GestureDetector(
+                    onTap: () => _showRadiusDropdown(context),
+                    child: Container(
                       decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10)),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           children: [
-                            Icon(Icons.radio_button_checked,
-                                color: Colors.black,size: 20,),
-                            SizedBox(
-                              width: 10,
+                            Icon(
+                              Icons.radio_button_checked,
+                              color: Colors.black,
+                              size: 20,
                             ),
+                            SizedBox(width: 10),
                             Text(
-                              _selectedRadius.toString(),
+                              '$_selectedRadius m',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,
                               ),
-                            )
+                            ),
                           ],
                         ),
-                      )),
-                ),
-                Positioned(
-                  bottom: 100,
-                  right: 20,
-                  child: FloatingActionButton(
-                    onPressed: () {},
-                    shape: CircleBorder(),
-                    backgroundColor: Theme.of(context).primaryColor,
-                    child: PopupMenuButton<double>(
-                      onSelected: (value) {
-                        setState(() {
-                          _selectedRadius = value;
-                        });
-                      },
-                      icon:
-                          Icon(Icons.radio_button_checked, color: Colors.white),
-                      itemBuilder: (context) => [
-                        PopupMenuItem(value: 200.0, child: Text('200m')),
-                        PopupMenuItem(value: 300.0, child: Text('300m')),
-                        PopupMenuItem(value: 500.0, child: Text('500m')),
-                        PopupMenuItem(value: 1000.0, child: Text('1000m')),
-                      ],
+                      ),
                     ),
                   ),
                 ),

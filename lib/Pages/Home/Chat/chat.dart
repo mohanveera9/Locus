@@ -10,57 +10,159 @@ class Chat extends StatelessWidget {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
       'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
-      'type':'receive'
+      'type': 'receive',
+      'isAccept': 'true',
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
       'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
-      'type':'receive'
+      'type': 'receive',
+      'isAccept': 'false',
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
       'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
-      'type':'send'
+      'type': 'send',
+      'isAccept': 'true',
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
       'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
-      'type':'receive'
+      'type': 'receive',
+      'isAccept': 'false',
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
       'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
-      'type':'receive'
+      'type': 'receive',
+      'isAccept': 'true',
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
       'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
-      'type':'send'
+      'type': 'send',
+      'isAccept': 'true',
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
       'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
-      'type':'receive'
+      'type': 'receive',
+      'isAccept': false,
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
       'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
-      'type':'receive'
+      'type': 'receive',
+      'isAccept': false,
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
       'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
-      'type':'receive'
+      'type': 'receive',
+      'isAccept': true,
     },
   ];
+
+  void _showRequest(
+    BuildContext context,
+    String img,
+    String name,
+  ) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: const Text('Do you want to send a chat request to this user?'),
+        actions: [
+          Row(
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).maybePop();
+                },
+                style: ButtonStyle(
+                  elevation: MaterialStateProperty.all(0),
+                  backgroundColor:
+                      MaterialStateProperty.all(Colors.transparent),
+                  side: MaterialStateProperty.all(
+                    BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 1.5,
+                    ),
+                  ),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 3, vertical: 5),
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (builder) => Chatinterface(name: name, img: img),
+                    ),
+                  );
+                },
+                style: ButtonStyle(
+                  elevation: MaterialStateProperty.all(0),
+                  backgroundColor: MaterialStateProperty.all(
+                    Theme.of(context).colorScheme.primary,
+                  ),
+                  side: MaterialStateProperty.all(
+                    BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 1.5,
+                    ),
+                  ),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 3, vertical: 5),
+                  child: Text(
+                    'Request',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +206,10 @@ class Chat extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(
-                top: 15.0, left: 15,  bottom: 80,),
+              top: 15.0,
+              left: 15,
+              bottom: 80,
+            ),
             child: Column(
               children: [
                 Expanded(
@@ -112,18 +217,30 @@ class Chat extends StatelessWidget {
                     itemCount: chats.length,
                     itemBuilder: (context, index) {
                       final chat = chats[index];
+                      final isAccept =
+                          chat['isAccept'] == 'true' ? true : false;
+                      final img = chat['img'];
+                      final name = chat['name'];
                       return Chatcontainer(
                         type: chat['type'] as String,
-                        img: chat['img'] as String,
-                        name: chat['name'] as String,
+                        img: img as String,
+                        name: name as String,
                         text: chat['text'] as String,
                         function: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (builder) => Chatinterface(
-                              name: chat['name']!,
-                              img: chat['img']!,
-                            ),
-                          ));
+                          if (isAccept) {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (builder) => Chatinterface(
+                                name: chat['name']!,
+                                img: chat['img']!,
+                              ),
+                            ));
+                          } else {
+                            _showRequest(
+                              context,
+                              img,
+                              name,
+                            );
+                          }
                         },
                       );
                     },

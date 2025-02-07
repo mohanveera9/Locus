@@ -12,6 +12,12 @@ class Explore extends StatefulWidget {
 class _ExploreState extends State<Explore> {
   late bool isOpen = false;
   late bool isAdmin = true;
+  bool isSearch = false;
+  String searchQuery = '';
+  List<String> selectedTags = [];
+  final FocusNode _focusNode = FocusNode();
+  final TextEditingController _searchController = TextEditingController();
+
   final exploreList = [
     {
       'img': 'assets/img/mohan.jpg',
@@ -84,34 +90,6 @@ class _ExploreState extends State<Explore> {
     },
   ];
 
-  bool filter = false;
-  String searchQuery = '';
-  List<String> selectedTags = [];
-  final FocusNode _focusNode = FocusNode();
-  bool isSearch = false;
-
-  // Function to filter explore list based on tags and search query
-  List<Map<String, String>> getFilteredExploreList() {
-    return exploreList.where((item) {
-      final matchesSearch =
-          item['name']!.toLowerCase().contains(searchQuery.toLowerCase());
-      final matchesTag =
-          selectedTags.isEmpty || selectedTags.contains(item['tag']);
-      return matchesSearch && matchesTag;
-    }).toList();
-  }
-
-  // Function to toggle tag selection
-  void toggleTag(String tag) {
-    setState(() {
-      if (selectedTags.contains(tag)) {
-        selectedTags.remove(tag);
-      } else {
-        selectedTags.add(tag);
-      }
-    });
-  }
-
   @override
   void initState() {
     super.initState();
@@ -123,257 +101,199 @@ class _ExploreState extends State<Explore> {
   }
 
   @override
+  void dispose() {
+    _focusNode.dispose();
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  List<Map<String, String>> getFilteredExploreList() {
+    return exploreList.where((item) {
+      final matchesSearch =
+          item['name']!.toLowerCase().contains(searchQuery.toLowerCase());
+      final matchesTag =
+          selectedTags.isEmpty || selectedTags.contains(item['tag']);
+      return matchesSearch && matchesTag;
+    }).toList();
+  }
+
+  void toggleSearch() {
+    setState(() {
+      isSearch = !isSearch;
+      if (!isSearch) {
+        _searchController.clear();
+        searchQuery = '';
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).unfocus(); // Close keyboard
+        FocusScope.of(context).unfocus();
         setState(() {
           isOpen = false;
         });
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          title: const Padding(
-            padding: EdgeInsets.only(left: 20.0),
-            child: Text(
-              'Explore',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-                fontFamily: 'Electrolize',
-              ),
-            ),
-          ),
-          actions: [
-            Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    isSearch = !isSearch;
-                  });
-                },
-                child: Icon(
-                  Icons.search,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
-        ),
-        body: Stack(
-          children: [
-            Padding(
-              padding:
-                  EdgeInsets.only(left: 20, right: 20, bottom: isOpen ? 0 : 80),
-              child: Column(
-                children: [
-                  if (isSearch)
-                    SizedBox(
-                      height: 10,
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            title: isSearch
+                ? TextField(
+                    controller: _searchController,
+                    focusNode: _focusNode,
+                    onChanged: (value) {
+                      setState(() {
+                        searchQuery = value;
+                      });
+                    },
+                    style: const TextStyle(color: Colors.white),
+                    decoration: const InputDecoration(
+                      hintText: 'Search...',
+                      hintStyle: TextStyle(color: Colors.white70),
+                      border: InputBorder.none,
                     ),
-                  if (isSearch)
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isOpen = !isOpen;
-                        });
-                      },
-                      child: TextField(
-                        focusNode: _focusNode,
-                        onChanged: (value) {
-                          setState(() {
-                            searchQuery = value; // Update search query
-                          });
-                        },
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: 'Search',
-                          hintStyle: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w400,
-                            color: Color.fromRGBO(129, 129, 129, 1),
-                          ),
-                          prefixIcon: Icon(
-                            Icons.search,
-                            color: Color.fromRGBO(129, 129, 129, 1),
-                          ),
-                          suffixIcon: IconButton(
-                            icon: Icon(Icons.filter_list),
-                            onPressed: () {
-                              setState(() {
-                                filter = !filter; // Toggle filter display
-                              });
-                            },
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                width: 1,
-                                style: BorderStyle.solid,
-                              ),
-                              borderRadius: BorderRadius.circular(10)),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                width: 1,
-                                style: BorderStyle.solid,
-                              ),
-                              borderRadius: BorderRadius.circular(10)),
-                        ),
-                      ),
-                    ),
-                  if (!filter)
-                    SizedBox(
-                      height: 20,
-                    ),
-                  if (filter)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0, bottom: 10),
-                      child: Row(
-                        children: [
-                          // Organization Tag
-                          FilterChip(
-                            label: Text('Organization'),
-                            selected: selectedTags.contains('Organization'),
-                            onSelected: (selected) {
-                              toggleTag('Organization');
-                            },
-                          ),
-                          const SizedBox(width: 10),
-                          // Local Tag
-                          FilterChip(
-                            label: Text('Local'),
-                            selected: selectedTags.contains('local'),
-                            onSelected: (selected) {
-                              toggleTag('local');
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  if (isAdmin)
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (builder) => Adminview(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Your Group',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              Icon(
-                                size: 18,
-                                Icons.arrow_forward_ios,
-                                color: Colors.black,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  if (isAdmin)
-                    SizedBox(
-                      height: 20,
-                    ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: getFilteredExploreList().length,
-                      itemBuilder: (context, index) {
-                        final list = getFilteredExploreList()[index];
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (builder) => Userview(
-                                  name: list['name'] as String,
-                                  img: list['img'] as String,
-                                ),
-                              ),
-                            );
-                          },
-                          child: Explorecontainer(
-                            name: list['name'] as String,
-                            description: list['description'] as String,
-                            img: list['img'] as String,
-                          ),
-                        );
-                      },
+                  )
+                : const Text(
+                    'Explore',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                      fontFamily: 'Electrolize',
                     ),
                   ),
-                ],
+            actions: [
+              IconButton(
+                icon: Icon(isSearch ? Icons.close : Icons.search),
+                color: Colors.white,
+                onPressed: toggleSearch,
               ),
-            ),
-            Positioned(
-              bottom: 100,
-              right: 30,
-              child: GestureDetector(
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
-                    builder: (context) => DraggableScrollableSheet(
-                      initialChildSize: 0.9,
-                      maxChildSize: 0.9,
-                      minChildSize: 0.5,
-                      builder: (context, scrollController) {
-                        return Container(
+            ],
+          ),
+          body: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    if (isAdmin)
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (builder) => Adminview(),
+                            ),
+                          );
+                        },
+                        child: Container(
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.primary,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20),
+                            borderRadius: BorderRadius.circular(15),
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Your Group',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                Icon(
+                                  size: 18,
+                                  Icons.arrow_forward_ios,
+                                  color: Colors.black,
+                                )
+                              ],
                             ),
                           ),
-                          child:
-                              Newgroup(), // Display your Newgroup widget here
-                        );
-                      },
+                        ),
+                      ),
+                    if (isAdmin)
+                      SizedBox(
+                        height: 20,
+                      ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: getFilteredExploreList().length,
+                        itemBuilder: (context, index) {
+                          final list = getFilteredExploreList()[index];
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (builder) => Userview(
+                                    name: list['name'] as String,
+                                    img: list['img'] as String,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Explorecontainer(
+                              name: list['name'] as String,
+                              description: list['description'] as String,
+                              img: list['img'] as String,
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                  );
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
-                    shape: BoxShape.circle,
-                  ),
-                  padding: EdgeInsets.all(8),
-                  child: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                    size: 30,
+                  ],
+                ),
+              ),
+              Positioned(
+                bottom: 100,
+                right: 30,
+                child: GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      builder: (context) => DraggableScrollableSheet(
+                        initialChildSize: 0.9,
+                        maxChildSize: 0.9,
+                        minChildSize: 0.5,
+                        builder: (context, scrollController) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.primary,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                              ),
+                            ),
+                            child:
+                                Newgroup(), // Display your Newgroup widget here
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
+                      shape: BoxShape.circle,
+                    ),
+                    padding: EdgeInsets.all(8),
+                    child: Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 30,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
+            ],
+          )),
     );
   }
 }

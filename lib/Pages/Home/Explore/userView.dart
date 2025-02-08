@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:locus/Pages/Home/Explore/chat_bubble_user.dart';
+import 'package:locus/widgets/chat_bubble_user.dart';
 
 class Userview extends StatelessWidget {
   final String name;
@@ -45,20 +45,21 @@ class Userview extends StatelessWidget {
           children: [
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.all(10),
+                padding: EdgeInsets.only(left: 20),
                 children: [
                   ChatBubbleUser(
                     message: "Hello! How are you?",
                     time: "10:30 AM",
-                    profileImg: img,
-                    isProfile: true,
                   ),
                   ChatBubbleUser(
                     message:
-                        "ghjgffdcghd  mohan basdve vdbsgzxz xbzhjdcvwsygdhw d sgygsyabxgZGUX Z  YFAFX A",
+                        "ghjgffdcghd  mohan basdve vdbsgzxz xbzhjdcvwsygdhw d GUX Z  YFAFX A",
                     time: "10:30 AM",
-                    profileImg: img,
-                    isProfile: true,
+                  ),
+                  ChatBubbleUser(
+                    message:
+                        "Ut enim ad minim veniam, quis norud exercitation ullamco laboris.",
+                    time: "10:30 AM",
                   ),
                 ],
               ),

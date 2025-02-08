@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:locus/Pages/Home/Chat/chatInterface.dart';
+import 'package:locus/Pages/Home/Chat/chatRequested.dart';
 import 'package:locus/widgets/primaryWidget.dart';
 
 class Notifications extends StatefulWidget {
@@ -209,19 +210,31 @@ class _NotificationsState extends State<Notifications>
               itemCount: filteredList.length,
               itemBuilder: (context, index) {
                 final chat = filteredList[index];
+                final isRequest = chat['type'] == 'request';
                 return Primarywidget(
                   img: chat['img']!,
                   name: chat['name']!,
                   lmsg: chat['lmsg']!,
                   function: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (builder) => Chatinterface(
-                          name: chat['name']!,
-                          img: chat['img']!,
+                    if (!isRequest) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (builder) => Chatinterface(
+                            name: chat['name']!,
+                            img: chat['img']!,
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                    } else {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (builder) => Chatforrequested(
+                            name: chat['name']!,
+                            img: chat['img']!,
+                          ),
+                        ),
+                      );
+                    }
                   },
                 );
               },

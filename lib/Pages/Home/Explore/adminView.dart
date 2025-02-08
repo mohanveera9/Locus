@@ -76,11 +76,8 @@ class _AdminviewState extends State<Adminview> {
               itemCount: messages.length,
               itemBuilder: (context, index) {
                 return ChatBubble(
-                  isProfile: true,
                   message: messages[index]["message"]!,
                   time: messages[index]["time"]!,
-                  profileImg:
-                      "assets/admin_profile.png", // Admin's profile image
                 );
               },
             ),

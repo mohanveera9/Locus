@@ -136,29 +136,49 @@ class _ExploreState extends State<Explore> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Theme.of(context).colorScheme.primary,
-          title: const Padding(
-            padding: EdgeInsets.only(left: 20.0),
-            child: Text(
-              'Explore',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-                fontFamily: 'Electrolize',
-              ),
-            ),
-          ),
+          title: isSearch
+              ? TextField(
+                  focusNode: _focusNode,
+                  onChanged: (value) {
+                    setState(() {
+                      searchQuery = value; // Update search query
+                    });
+                  },
+                  autofocus: true,
+                  style: const TextStyle(color: Colors.white, fontSize: 17),
+                  decoration: const InputDecoration(
+                    hintText: 'Search...',
+                    hintStyle: TextStyle(color: Colors.white70),
+                    border: InputBorder.none,
+                  ),
+                )
+              : const Padding(
+                  padding: EdgeInsets.only(left: 20.0),
+                  child: Text(
+                    'Explore',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                      fontFamily: 'Electrolize',
+                    ),
+                  ),
+                ),
           actions: [
             Padding(
-              padding: EdgeInsets.only(right: 20.0),
+              padding: const EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {
                   setState(() {
-                    isSearch = !isSearch;
+                    isSearch = !isSearch; // Toggle search mode
+                    if (!isSearch) {
+                      searchQuery =
+                          ''; // Clear search query when closing search
+                    }
                   });
                 },
                 child: Icon(
-                  Icons.search,
+                  isSearch ? Icons.close : Icons.search,
                   color: Colors.white,
                 ),
               ),
@@ -172,95 +192,10 @@ class _ExploreState extends State<Explore> {
                   EdgeInsets.only(left: 20, right: 20, bottom: isOpen ? 0 : 80),
               child: Column(
                 children: [
-                  if (isSearch)
-                    SizedBox(
-                      height: 10,
-                    ),
-                  if (isSearch)
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isOpen = !isOpen;
-                        });
-                      },
-                      child: TextField(
-                        focusNode: _focusNode,
-                        onChanged: (value) {
-                          setState(() {
-                            searchQuery = value; // Update search query
-                          });
-                        },
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: 'Search',
-                          hintStyle: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w400,
-                            color: Color.fromRGBO(129, 129, 129, 1),
-                          ),
-                          prefixIcon: Icon(
-                            Icons.search,
-                            color: Color.fromRGBO(129, 129, 129, 1),
-                          ),
-                          suffixIcon: IconButton(
-                            icon: Icon(Icons.filter_list),
-                            onPressed: () {
-                              setState(() {
-                                filter = !filter; // Toggle filter display
-                              });
-                            },
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                width: 1,
-                                style: BorderStyle.solid,
-                              ),
-                              borderRadius: BorderRadius.circular(10)),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                width: 1,
-                                style: BorderStyle.solid,
-                              ),
-                              borderRadius: BorderRadius.circular(10)),
-                        ),
-                      ),
-                    ),
-                  if (!filter)
-                    SizedBox(
-                      height: 20,
-                    ),
-                  if (filter)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0, bottom: 10),
-                      child: Row(
-                        children: [
-                          // Organization Tag
-                          FilterChip(
-                            label: Text('Organization'),
-                            selected: selectedTags.contains('Organization'),
-                            onSelected: (selected) {
-                              toggleTag('Organization');
-                            },
-                          ),
-                          const SizedBox(width: 10),
-                          // Local Tag
-                          FilterChip(
-                            label: Text('Local'),
-                            selected: selectedTags.contains('local'),
-                            onSelected: (selected) {
-                              toggleTag('local');
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  if (isAdmin)
+                  SizedBox(
+                    height: 20,
+                  ),
+                  if (isAdmin && !isSearch)
                     GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(
@@ -296,7 +231,7 @@ class _ExploreState extends State<Explore> {
                         ),
                       ),
                     ),
-                  if (isAdmin)
+                  if (isAdmin && !isSearch)
                     SizedBox(
                       height: 20,
                     ),

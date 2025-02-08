@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:locus/Pages/Home/Chat/chatInterface.dart';
 import 'package:locus/Pages/Home/Chat/message.dart';
 import 'package:locus/Pages/Home/Chat/notifications.dart';
+import 'package:locus/widgets/Buttons/InnerButton.dart';
+import 'package:locus/widgets/Buttons/OuterButton.dart';
 import 'package:locus/widgets/chatContainer.dart';
 
 class Chat extends StatelessWidget {
@@ -10,57 +12,92 @@ class Chat extends StatelessWidget {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
       'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
-      'type':'receive'
+      'type': 'receive',
+      'isAccept': 'true',
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
       'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
-      'type':'receive'
+      'type': 'receive',
+      'isAccept': 'false',
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
       'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
-      'type':'send'
+      'type': 'send',
+      'isAccept': 'true',
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
       'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
-      'type':'receive'
+      'type': 'receive',
+      'isAccept': 'true',
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
       'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
-      'type':'receive'
+      'type': 'receive',
+      'isAccept': 'true',
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
       'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
-      'type':'send'
+      'type': 'send',
+      'isAccept': 'true',
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
       'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
-      'type':'receive'
+      'type': 'receive',
+      'isAccept': 'false',
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
       'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
-      'type':'receive'
+      'type': 'receive',
+      'isAccept': 'false',
     },
     {
       'img': 'assets/img/mohan.jpg',
       'name': 'Mohan Veera',
       'text': 'Mohan Veera gbvfdfg fcx cfcg how to do gvcxx.',
-      'type':'receive'
+      'type': 'receive',
+      'isAccept': 'true',
     },
   ];
+
+  void _showRequest(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: const Text(
+            'You need to send a request to start a conversation with this user. Would you like to proceed?'),
+        actions: [
+          Row(
+            children: [
+              Outerbutton(text: 'Cancel'),
+              SizedBox(
+                width: 10,
+              ),
+              Innerbutton(
+                function: () {
+                  Navigator.of(context).pop();
+                },
+                text: 'Request',
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +141,10 @@ class Chat extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(
-                top: 15.0, left: 15,  bottom: 80,),
+              top: 15.0,
+              left: 15,
+              bottom: 80,
+            ),
             child: Column(
               children: [
                 Expanded(
@@ -112,18 +152,29 @@ class Chat extends StatelessWidget {
                     itemCount: chats.length,
                     itemBuilder: (context, index) {
                       final chat = chats[index];
+                      final bool isAccept =
+                          chat['isAccept'] == 'true'; // Ensure it's a boolean
+                      print(chat);
+                      print(isAccept);
                       return Chatcontainer(
                         type: chat['type'] as String,
                         img: chat['img'] as String,
                         name: chat['name'] as String,
                         text: chat['text'] as String,
                         function: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (builder) => Chatinterface(
-                              name: chat['name']!,
-                              img: chat['img']!,
-                            ),
-                          ));
+                          if (!isAccept) {
+                            _showRequest(
+                                context); // Show request dialog only if isAccept is false
+                          } else {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (builder) => Chatinterface(
+                                  name: chat['name']!,
+                                  img: chat['img']!,
+                                ),
+                              ),
+                            );
+                          }
                         },
                       );
                     },

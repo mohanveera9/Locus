@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:locus/Pages/Home/Chat/chatInterface.dart';
-import 'package:locus/Pages/Home/Explore/chat_bubble_user.dart';
+import 'package:locus/widgets/chat_bubble_user.dart';
 import 'package:locus/widgets/Buttons/InnerButton.dart';
 import 'package:locus/widgets/Buttons/OuterButton.dart';
 
@@ -22,7 +22,7 @@ class _ChatforrequestedState extends State<Chatforrequested> {
   final TextEditingController _controller = TextEditingController();
   bool isTyping = false;
   final List<String> receivedMessages = [
-    "Hello, how are you?",
+   
   ];
   final List<String> sentMessages = [];
 
@@ -85,7 +85,6 @@ class _ChatforrequestedState extends State<Chatforrequested> {
         child: ChatBubbleUser(
           message: message,
           time: '10:20 AM',
-          profileImg: img,
         ));
   }
 

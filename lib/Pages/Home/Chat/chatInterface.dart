@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:locus/Pages/Home/Explore/chat_bubble_user.dart';
+import 'package:locus/widgets/chat_bubble_user.dart';
 import 'package:locus/widgets/chat_bubble.dart';
 
 class Chatinterface extends StatefulWidget {
@@ -195,19 +195,13 @@ class _ChatinterfaceState extends State<Chatinterface> {
                   itemBuilder: (context, index) {
                     if (index < receivedMessages.length) {
                       return ChatBubbleUser(
-                        isProfile: false,
                         message: receivedMessages[index],
                         time: '12:34 PM', // Example time
-                        profileImg:
-                            'assets/img/mohan.jpg', // Use appropriate image
                       );
                     } else {
                       return ChatBubble(
                         message: sentMessages[index - receivedMessages.length],
                         time: '12:34 PM', // Example time
-                        profileImg:
-                            'assets/img/mohan.jpg', // Use appropriate image
-                        isProfile: true, // If profile image should be shown
                       );
                     }
                   },

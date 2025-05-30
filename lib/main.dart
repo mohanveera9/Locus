@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:locus/Pages/Home/mainScreen.dart';
-import 'package:locus/Pages/LoginRegister/login.dart';
-import 'package:locus/Pages/LoginRegister/loginMain.dart';
+import 'package:locus/screens/home/main_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,18 +12,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
-          primary: Color.fromRGBO(0, 191, 99,1),
-          secondary: Color.fromRGBO(191, 255, 168, 1),
-          tertiary: Colors.white,
-          tertiaryContainer: Colors.black
-        ),
+            seedColor: Colors.deepPurple,
+            primary: Color(0xFF003B73),
+            secondary: Color(0xFFFFF8F2),
+            tertiary: Color.fromARGB(255, 119, 119, 119)),
         useMaterial3: true,
       ),
-      debugShowCheckedModeBanner: false,
-      home: Loginmain(),
+      home: Mainscreen(),
     );
   }
 }

@@ -6,24 +6,20 @@ publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.6.0
+  sdk: ^3.6.2
 
 dependencies:
   flutter:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
+  google_fonts: ^6.2.1
+  quickalert: ^1.1.0
+  package_info_plus: ^8.3.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  
-  image_picker: ^1.1.2
-  flutter_map: ^7.0.2
-  latlong2: ^0.9.1
-  url_launcher: ^6.3.1
-  geolocator: ^13.0.1
-  http: ^1.2.2
 
   flutter_lints: ^5.0.0
 
@@ -33,8 +29,8 @@ flutter:
   assets:
     - assets/img/
 
+ 
   fonts:
-    - family: Electrolize
+    - family: CrimsonText-Bold
       fonts:
-        - asset: assets/fonts/electrolize-regular.ttf
-
+        - asset: assets/font/CrimsonText-SemiBold.ttf

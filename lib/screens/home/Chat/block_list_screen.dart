@@ -6,12 +6,12 @@ class BlockListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> blockedUsers = [
-      'Rama Krishan',
-      'Sita Devi',
-      'Lakshman Rao',
-      'Hanuman Das',
-      'Vishnu Vardhan',
+    final List<Map<String, String>> blockedUsers = [
+      {'name': 'Rama Krishan', 'img': 'assets/img/profile.png'},
+      {'name': 'Sita Devi', 'img': 'assets/img/profile.png'},
+      {'name': 'Lakshman Rao', 'img': 'assets/img/profile.png'},
+      {'name': 'Hanuman Das', 'img': 'assets/img/profile.png'},
+      {'name': 'Vishnu Vardhan', 'img': 'assets/img/profile.png'},
     ];
 
     return Scaffold(
@@ -35,12 +35,14 @@ class BlockListScreen extends StatelessWidget {
         automaticallyImplyLeading: true,
         elevation: 0.5,
       ),
-      body: ListView.separated(
+      body: ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
         itemCount: blockedUsers.length,
-        separatorBuilder: (_, __) => const Divider(height: 1),
         itemBuilder: (context, index) {
-          return BlocklistContainer(name: blockedUsers[index]);
+          return BlocklistContainer(
+            name: blockedUsers[index]['name']!,
+            img: blockedUsers[index]['img']!,
+          );
         },
       ),
     );

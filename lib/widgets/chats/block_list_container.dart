@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 class BlocklistContainer extends StatelessWidget {
   final String name;
+  final String img;
   const BlocklistContainer({
     super.key,
     required this.name,
+    required this.img,
   });
 
   @override
@@ -13,10 +15,10 @@ class BlocklistContainer extends StatelessWidget {
       children: [
         ListTile(
           contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-          leading: const CircleAvatar(
+          leading: CircleAvatar(
             radius: 22,
-            backgroundColor: Color(0xFF003B73),
-            child: Icon(Icons.person, color: Colors.white),
+            backgroundColor: Colors.transparent,
+            backgroundImage: AssetImage(img),
           ),
           title: Text(
             name,

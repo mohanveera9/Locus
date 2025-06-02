@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:locus/screens/home/Post/send_message.dart';
 import 'package:locus/screens/home/screen_with_appbar.dart';
-import 'package:locus/widgets/Post/info_card.dart';
+import 'package:locus/widgets/Post/post_card.dart';
 import 'package:locus/widgets/confirmation_dialog_boc.dart';
 
 class PostScreen extends StatelessWidget {
@@ -24,13 +24,15 @@ class PostScreen extends StatelessWidget {
     final List<Map<String, dynamic>> sampleData = [
       {
         'name': 'You',
-        'message': 'Hi everyone....',
+        'message':
+            'Hey everyone! Just wanted to share a quick update regarding the upcoming event. Make sure to check your emails for the official invite. We’ll have guest speakers, interactive sessions, and free goodies. Looking forward to seeing you all there. Don’t miss it!',
         'time': '18 min ago',
         'isReceive': false,
       },
       {
         'name': 'Sita',
-        'message': 'Meeting postponed to 4 PM.',
+        'message':
+            'Attention everyone! Please note that the scheduled meeting has been postponed to 4 PM today due to unforeseen circumstances. We apologize for any inconvenience caused and appreciate your understanding. Kindly update your calendars and be available at the revised time.',
         'time': '12 min ago',
         'isReceive': true,
       },
@@ -46,6 +48,12 @@ class PostScreen extends StatelessWidget {
         'time': '2 hrs ago',
         'isReceive': true,
       },
+      {
+        'name': 'Hanuman',
+        'message': 'Hi Mohan Veera what are doing...kk',
+        'time': '2 hrs ago',
+        'isReceive': true,
+      },
     ];
 
     return Scaffold(
@@ -56,7 +64,7 @@ class PostScreen extends StatelessWidget {
           children: sampleData
               .map((data) => Padding(
                     padding: const EdgeInsets.only(bottom: 12.0),
-                    child: InfoCard(
+                    child: PostCard(
                       name: data['name'],
                       message: data['message'],
                       time: data['time'],

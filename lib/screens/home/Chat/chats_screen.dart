@@ -44,9 +44,18 @@ class ChatsScreen extends StatelessWidget {
               value: 'blocklist',
               child: Row(
                 children: [
-                  Icon(Icons.block, size: 20, color: Colors.red),
+                  Icon(
+                    Icons.block,
+                    size: 20,
+                    color: Color(0xFFB80707),
+                  ),
                   SizedBox(width: 5),
-                  Text('Blocklist', style: TextStyle(color: Colors.red)),
+                  Text(
+                    'Blocklist',
+                    style: TextStyle(
+                      color: Color(0xFFB80707),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -63,36 +72,35 @@ class ChatsScreen extends StatelessWidget {
       {
         'name': 'Rama Krishna',
         'hintname': 'tap to chat',
-        'img': "assets/img/profile1.png"
+        'img': "assets/img/profile.png"
       },
       {
         'name': 'Sita Devi',
         'hintname': 'say hi',
-        'img': "assets/img/profile1.png"
+        'img': "assets/img/profile.png"
       },
       {
         'name': 'Lakshman Rao',
         'hintname': 'how are you?',
-        'img': "assets/img/profile1.png"
+        'img': "assets/img/profile.png"
       },
       {
         'name': 'Hanuman Das',
         'hintname': 'good evening',
-        'img': "assets/img/profile1.png"
+        'img': "assets/img/profile.png"
       },
       {
         'name': 'Vishnu Vardhan',
         'hintname': 'long time!',
-        'img': "assets/img/profile1.png"
+        'img': "assets/img/profile.png"
       },
     ];
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.secondary,
-      body: ListView.separated(
+      body: ListView.builder(
         itemCount: chats.length,
         padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-        separatorBuilder: (_, __) => const Divider(height: 1),
         itemBuilder: (context, index) {
           final chat = chats[index];
           return ChatContainer(

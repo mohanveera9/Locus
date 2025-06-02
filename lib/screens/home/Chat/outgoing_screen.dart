@@ -8,17 +8,17 @@ class OutgoingScreen extends StatelessWidget {
     {
       'name': 'Sneha Reddy',
       'time': '5 mins ago',
-      'img': 'assets/img/profile1.png'
+      'img': 'assets/img/profile.png'
     },
     {
       'name': 'Ajay Mehta',
       'time': '30 mins ago',
-      'img': 'assets/img/profile1.png'
+      'img': 'assets/img/profile.png'
     },
     {
       'name': 'Divya Joshi',
       'time': 'Today, 11:00 AM',
-      'img': 'assets/img/profile1.png'
+      'img': 'assets/img/profile.png'
     },
   ];
 
@@ -26,10 +26,9 @@ class OutgoingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.secondary,
-      body: ListView.separated(
+      body: ListView.builder(
         itemCount: outgoingRequests.length,
         padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-        separatorBuilder: (_, __) => const Divider(height: 1),
         itemBuilder: (context, index) {
           final req = outgoingRequests[index];
           return OutgoingRequestContainer(req: req);

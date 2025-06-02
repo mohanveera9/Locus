@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:locus/screens/Login/login_screen.dart';
 import 'package:locus/screens/Login/register_2.dart';
+import 'package:locus/screens/forget_password/otp_screen.dart';
 import 'package:locus/widgets/button.dart';
 import 'package:locus/widgets/input_field.dart';
 
@@ -45,7 +46,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
           confirmPasswordError == null) {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (builder) => Register2(),
+            builder: (builder) => OtpScreen(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (builder) => Register2(),
+                  ),
+                );
+              },
+            ),
           ),
         );
       }

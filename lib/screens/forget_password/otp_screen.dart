@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:locus/screens/forget_password/new_password_screen.dart';
 import 'package:locus/widgets/button.dart';
 
 class OtpScreen extends StatefulWidget {
-  const OtpScreen({super.key});
+  final VoidCallback onTap;
+  const OtpScreen({
+    super.key,
+    required this.onTap,
+  });
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -26,10 +29,7 @@ class _OtpScreenState extends State<OtpScreen> {
       });
 
       // Navigate to new password screen
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => NewPasswordScreen()),
-      );
+      widget.onTap;
     }
   }
 
@@ -164,7 +164,9 @@ class _OtpScreenState extends State<OtpScreen> {
                   GestureDetector(
                     onTap: () {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("OTP resent")),
+                        const SnackBar(
+                          content: Text("OTP resent"),
+                        ),
                       );
                     },
                     child: Text(

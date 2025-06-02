@@ -33,7 +33,7 @@ class _ZonePageState extends State<ZonePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       appBar: AppBar(
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,

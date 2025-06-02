@@ -12,7 +12,7 @@ class OutgoingRequestContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).colorScheme;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 13),
       child: Row(
         children: [
           CircleAvatar(
@@ -50,7 +50,7 @@ class OutgoingRequestContainer extends StatelessWidget {
               // Handle accept
             },
             style: OutlinedButton.styleFrom(
-              side: BorderSide(color: Colors.red),
+              side: BorderSide(color: Color(0xFFB80707),),
               foregroundColor: theme.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -62,9 +62,9 @@ class OutgoingRequestContainer extends StatelessWidget {
               ),
             ),
             child: const Text(
-              "Un Request",
+              "Cancel Request",
               style: TextStyle(
-                color: Colors.red,
+                color: Color(0xFFB80707),
               ),
             ),
           ),

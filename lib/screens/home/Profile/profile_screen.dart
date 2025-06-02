@@ -3,6 +3,7 @@ import 'package:locus/screens/Login/login_screen.dart';
 import 'package:locus/screens/home/Profile/change_password_screen.dart';
 import 'package:locus/screens/home/Profile/edit_profile_screen.dart';
 import 'package:locus/screens/home/Profile/zone_screen.dart';
+import 'package:locus/screens/home/explore/admin_chat_screen.dart';
 import 'package:locus/screens/home/explore/create_new.dart';
 import 'package:locus/widgets/danger_dialog_box.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -62,7 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: const CircleAvatar(
                 radius: 50,
                 backgroundColor: Colors.white,
-                backgroundImage: AssetImage('assets/img/profile1.png'),
+                backgroundImage: AssetImage('assets/img/profile.png'),
               ),
             ),
             const SizedBox(height: 10),
@@ -156,7 +157,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CreateNew(),
+                      builder: (context) => AdminChatScreen(
+                        name: "Research & Innovation Club",
+                        img: 'assets/img/research.jpg',
+                      ),
                     ),
                   );
                 },
@@ -165,9 +169,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             fields(
               iconPath: 'assets/img/deleteaccount.png',
               label: 'Delete Account',
-              iconBg: Colors.red,
-              labelColor: Colors.red,
-              iconColor: Colors.red,
+              iconBg: Color(0xFFB80707),
+              labelColor: Color(0xFFB80707),
+              iconColor: Theme.of(context).colorScheme.primary,
               onTap: () {
                 showDialog(
                   context: context,
@@ -218,7 +222,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       'Sign Out',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.red,
+                        color: Color(0xFFB80707),
                         fontFamily: 'CrimsonText-Bold',
                       ),
                     ),

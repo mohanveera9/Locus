@@ -128,10 +128,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.only(right: 10, top: 10),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.of(context).pushAndRemoveUntil(
+                        Navigator.of(context).push(
                           MaterialPageRoute(
-                              builder: (context) => RegisterScreen()),
-                          (Route<dynamic> route) => false,
+                            builder: (context) => ForgetPasswordScreen(),
+                          ),
                         );
                       },
                       child: Text(
@@ -165,10 +165,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(
+                        Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
                             builder: (builder) => RegisterScreen(),
                           ),
+                          (Route<dynamic> route) => false,
                         );
                       },
                       child: Text(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:locus/screens/forget_password/new_password_screen.dart';
 import 'package:locus/screens/forget_password/otp_screen.dart';
 import 'package:locus/widgets/button.dart';
 import 'package:locus/widgets/input_field.dart';
@@ -31,7 +32,17 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       // Proceed to next screen
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => OtpScreen()),
+        MaterialPageRoute(
+          builder: (context) => OtpScreen(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (builder) => NewPasswordScreen(),
+                ),
+              );
+            },
+          ),
+        ),
       );
     }
   }

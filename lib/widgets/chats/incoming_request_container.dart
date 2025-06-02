@@ -13,7 +13,7 @@ class IncomingRequestContainer extends StatelessWidget {
     final theme = Theme.of(context).colorScheme;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 13),
       child: Row(
         children: [
           CircleAvatar(

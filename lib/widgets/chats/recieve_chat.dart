@@ -1,191 +1,88 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-class ReceiveChat extends StatelessWidget {
+class RecieveChat extends StatelessWidget {
   final String message;
   final String time;
-  final String? senderName;
-  final String? taggedMessage;
-  final String? taggedSender;
-  final VoidCallback? onLongPress;
 
-  const ReceiveChat({
+  const RecieveChat({
     super.key,
     required this.message,
     required this.time,
-    this.senderName,
-    this.taggedMessage,
-    this.taggedSender,
-    this.onLongPress,
   });
+
+  bool isMultiline(String text, double maxWidth, TextStyle style) {
+    final TextPainter textPainter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      maxLines: 2, // Check if the text exceeds two lines
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: maxWidth);
+
+    return textPainter.didExceedMaxLines;
+  }
 
   @override
   Widget build(BuildContext context) {
+    final TextStyle textStyle = const TextStyle(
+      color: Colors.black,
+      fontSize: 16,
+    );
+
+    double screenWidth = MediaQuery.of(context).size.width;
+    bool multiLineText = isMultiline(message, screenWidth * 0.6, textStyle);
+
     return Align(
       alignment: Alignment.centerLeft,
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 3.0),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Avatar
-            CircleAvatar(
-              radius: 18,
-              backgroundColor: Colors.blue.shade100,
-              child: Text(
-                (senderName?.isNotEmpty == true) 
-                    ? senderName![0].toUpperCase() 
-                    : 'U',
-                style: TextStyle(
-                  color: Colors.blue.shade700,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            // Message Container
             Flexible(
-              child: GestureDetector(
-                onLongPress: onLongPress,
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.grey.shade50,
-                        Colors.grey.shade100,
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
-                      bottomLeft: Radius.circular(4),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.08),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 50.0),
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      margin: const EdgeInsets.symmetric(vertical: 5),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.background,
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(12),
+                          bottomRight: Radius.circular(12),
+                          topRight: Radius.circular(12),
+                        ),
                       ),
-                    ],
-                    border: Border.all(
-                      color: Colors.grey.shade200,
-                      width: 0.5,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Sender name (if provided)
-                        if (senderName?.isNotEmpty == true) ...[
-                          Text(
-                            senderName!,
-                            style: TextStyle(
-                              color: Colors.blue.shade600,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                        ],
-                        
-                        // Tagged message (if any)
-                        if (taggedMessage != null) ...[
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            margin: const EdgeInsets.only(bottom: 8),
-                            decoration: BoxDecoration(
-                              color: Colors.blue.shade50,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border(
-                                left: BorderSide(
-                                  color: Colors.blue.shade400,
-                                  width: 3,
-                                ),
-                              ),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                if (taggedSender != null)
-                                  Text(
-                                    taggedSender!,
-                                    style: TextStyle(
-                                      color: Colors.blue.shade700,
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                Text(
-                                  taggedMessage!,
-                                  style: TextStyle(
-                                    color: Colors.grey.shade600,
-                                    fontSize: 13,
-                                    fontStyle: FontStyle.italic,
-                                  ),
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: multiLineText
+                                ? EdgeInsets.only(bottom: 10)
+                                : const EdgeInsets.only(right: 65.0),
+                            child: Text(
+                              message,
+                              style: textStyle,
                             ),
                           ),
                         ],
-                        
-                        // Main message
-                        Text(
-                          message,
-                          style: const TextStyle(
-                            color: Colors.black87,
-                            fontSize: 15,
-                            height: 1.3,
-                          ),
-                        ),
-                        
-                        const SizedBox(height: 4),
-                        
-                        // Time with unique design
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 6,
-                                vertical: 2,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.access_time_rounded,
-                                    size: 10,
-                                    color: Colors.grey.shade600,
-                                  ),
-                                  const SizedBox(width: 3),
-                                  Text(
-                                    time,
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      color: Colors.grey.shade600,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
+                  Positioned(
+                    bottom: 10,
+                    right: 60,
+                    child: Text(
+                      time,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

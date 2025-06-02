@@ -15,10 +15,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.deepPurple,
-            primary: Color(0xFF003B73),
-            secondary: Color(0xFFFFF8F2),
-            tertiary: Color.fromARGB(255, 119, 119, 119)),
+          seedColor: Colors.deepPurple,
+          primary: Color(0xFF003B73),
+          secondary: Color(0xFFFFF8F2),
+          tertiary: Color.fromARGB(255, 119, 119, 119),
+          background: Color(0xFFB6BEC7),
+          onBackground: Color(0xFFB80707)
+        ),
         useMaterial3: true,
       ),
       home: Mainscreen(),

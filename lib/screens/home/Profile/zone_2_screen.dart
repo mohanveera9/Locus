@@ -35,7 +35,7 @@ class _Zone2ScreenState extends State<Zone2Screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       appBar: AppBar(
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
@@ -104,7 +104,7 @@ class _Zone2ScreenState extends State<Zone2Screen> {
               ),
               const SizedBox(height: 30),
               Buttons(
-                hintText: 'Submit',
+                hintText: 'Next',
                 onTap: _handleSubmit,
               ),
             ],

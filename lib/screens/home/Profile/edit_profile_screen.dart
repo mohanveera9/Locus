@@ -21,7 +21,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       _nameError = _nameController.text.isEmpty ? 'Name cannot be empty' : null;
       _phoneError = _phoneController.text.isEmpty
           ? 'Phone number is required'
-          : (_phoneController.text.length != 10 ? 'Enter valid 10-digit number' : null);
+          : (_phoneController.text.length != 10
+              ? 'Enter valid 10-digit number'
+              : null);
     });
 
     if (_nameError == null && _phoneError == null) {
@@ -35,7 +37,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       appBar: AppBar(
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
@@ -74,7 +76,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                       child: const CircleAvatar(
                         radius: 50,
-                        backgroundImage: AssetImage('assets/img/profile1.png'),
+                        backgroundColor: Colors.transparent,
+                        backgroundImage: AssetImage('assets/img/profile.png'),
                       ),
                     ),
                   ),
@@ -92,7 +95,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           shape: BoxShape.circle,
                           border: Border.all(color: Colors.white, width: 2),
                         ),
-                        child: const Icon(Icons.edit, color: Colors.white, size: 16),
+                        child: const Icon(Icons.edit,
+                            color: Colors.white, size: 16),
                       ),
                     ),
                   ),
@@ -112,21 +116,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 hinttext: 'Name',
                 controller: _nameController,
                 errorText: _nameError,
-              ),
-              const SizedBox(height: 20),
-              Text(
-                'Phone',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontFamily: 'CrimsonText-Bold',
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
-              InputFields(
-                icon: const Icon(Icons.phone),
-                hinttext: 'Phone',
-                controller: _phoneController,
-                errorText: _phoneError,
               ),
               const SizedBox(height: 30),
               Buttons(

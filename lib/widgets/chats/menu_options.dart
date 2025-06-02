@@ -12,18 +12,25 @@ class Menuoptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<String>(
-      onSelected: onSelected,
-      itemBuilder: (context) => menuItems,
-      offset: const Offset(0, 40),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+    return Theme(
+      data: Theme.of(context).copyWith(
+        popupMenuTheme: PopupMenuThemeData(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
       ),
-      icon: const Icon(
-        Icons.more_vert,
-        color: Colors.black87,
+      child: PopupMenuButton<String>(
+        onSelected: onSelected,
+        itemBuilder: (context) => menuItems,
+        offset: const Offset(0, 40),
+        icon: const Icon(
+          Icons.more_vert,
+          color: Colors.black87,
+        ),
+        tooltip: 'Options',
       ),
-      tooltip: 'Options',
     );
   }
 }

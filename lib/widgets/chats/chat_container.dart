@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:locus/widgets/profile_pop.dart';
 
 class ChatContainer extends StatelessWidget {
   final String name;
@@ -19,17 +18,9 @@ class ChatContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-      leading: GestureDetector(
-        onTap: () {
-          showDialog(
-            context: context,
-            builder: (context) => ProfilePopup(img: img),
-          );
-        },
-        child: CircleAvatar(
-          radius: 22,
-          backgroundImage: AssetImage(img),
-        ),
+      leading: CircleAvatar(
+        radius: 22,
+        backgroundImage: AssetImage(img),
       ),
       title: Text(
         name,
